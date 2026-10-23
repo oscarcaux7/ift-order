@@ -1,5 +1,12 @@
 # IFT Order System — Institute for Future Technologies
 
+[![GitHub Pages](https://img.shields.io/badge/Demo-GitHub%20Pages-black?style=flat&logo=github)](https://oscarcaux7.github.io/ift-order/)
+[![Vue 3](https://img.shields.io/badge/Vue-3.5-42b883?style=flat&logo=vuedotjs)](https://vuejs.org/)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind-3.4-38bdf8?style=flat&logo=tailwindcss)](https://tailwindcss.com/)
+
+> 🌐 **Site en direct sur GitHub Pages** : **[https://oscarcaux7.github.io/ift-order/](https://oscarcaux7.github.io/ift-order/)**  
+> 📁 **Dépôt GitHub** : **[https://github.com/oscarcaux7/ift-order](https://github.com/oscarcaux7/ift-order)**
+
 Système de gestion et de suivi des demandes d'achats de matériel, composants électroniques et consommables de laboratoire pour l'**Institute for Future Technologies (IFT)** ([ift.devinci.fr](https://ift.devinci.fr)).
 
 Conçu avec une identité visuelle minimaliste, aérée et fonctionnelle (Swiss Modernist / labo de recherche contemporain), optimisé pour le **Spark Tier gratuit de Firebase** (zéro coût d'infrastructure).
