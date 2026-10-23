@@ -146,7 +146,10 @@ const validateForm = () => {
       return `L'article #${i + 1} nécessite un lien direct vers la fiche marchand.`;
     }
     try {
-      new URL(it.url);
+      const parsedUrl = new URL(it.url);
+      if (parsedUrl.protocol !== 'http:' && parsedUrl.protocol !== 'https:') {
+        return `L'URL de l'article #${i + 1} doit obligatoirement débuter par http:// ou https://.`;
+      }
     } catch {
       return `L'URL de l'article #${i + 1} est invalide (ex: https://...).`;
     }

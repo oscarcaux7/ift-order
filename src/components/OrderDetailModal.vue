@@ -48,6 +48,16 @@ const initEditFields = () => {
   }
 };
 
+const isSafeUrl = (url) => {
+  if (!url) return false;
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === 'http:' || parsed.protocol === 'https:';
+  } catch {
+    return false;
+  }
+};
+
 watch(() => props.order, (newVal) => {
   if (newVal) {
     initEditFields();
@@ -257,7 +267,7 @@ const handleDelete = async () => {
                   </td>
                   <td class="px-3 py-2.5 text-center">
                     <a
-                      v-if="item.url"
+                      v-if="isSafeUrl(item.url)"
                       :href="item.url"
                       target="_blank"
                       rel="noopener noreferrer"

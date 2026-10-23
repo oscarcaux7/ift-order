@@ -2,11 +2,21 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /orders/{orderId} {
-      // N'importe quel membre peut soumettre une commande et lire les statuts
-      allow read, create: if true;
-      // La mise à jour ou suppression est réservée aux utilisateurs authentifiés
+      // Lecture publique pour le suivi par identifiant unique ou tableau de bord
+      allow read: if true;
+
+      // Création : force le statut initial à 'pending', valide les types et limite la taille du panier
+      allow create: if request.resource.data.status == 'pending'
+                    && request.resource.data.applicant.name is string
+                    && request.resource.data.applicant.email is string
+                    && request.resource.data.items is list
+                    && request.resource.data.items.size() > 0
+                    && request.resource.data.items.size() <= 50;
+
+      // Mise à jour des statuts et suppression : strictement réservées aux utilisateurs connectés (Lab Managers)
       allow update, delete: if request.auth != null;
     }
+
     match /projects/{projectId} {
       allow read: if true;
       allow write: if request.auth != null;
