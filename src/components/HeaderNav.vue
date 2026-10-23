@@ -134,12 +134,23 @@ const handleLogout = async () => {
           </div>
 
           <div v-else class="flex items-center gap-2">
+            <!-- 1-Click Fast Demo Switcher for Evaluators -->
+            <button
+              type="button"
+              @click="authStore.loginDemoLabManager()"
+              class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-mono font-medium text-amber-900 bg-amber-50 hover:bg-amber-100 border border-amber-300 rounded-md transition-colors shadow-2xs"
+              title="Activer immédiatement le rôle Lab Manager pour tester l'arbitrage des commandes"
+            >
+              <ShieldCheck class="w-3.5 h-3.5 text-amber-600" />
+              <span>Démo Manager</span>
+            </button>
+
             <router-link
               to="/auth"
               class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100 rounded-md border border-neutral-200 transition-colors"
             >
               <LogIn class="w-3.5 h-3.5 text-neutral-500" />
-              <span>Espace Manager</span>
+              <span>Connexion</span>
             </router-link>
           </div>
         </div>

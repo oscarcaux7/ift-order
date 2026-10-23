@@ -83,6 +83,35 @@ const removeItem = (idx) => {
   }
 };
 
+const fillDemoExample = () => {
+  form.applicant.name = 'Oscar Caux';
+  form.applicant.email = 'oscar.caux@devinci.fr';
+  form.applicant.role = 'Étudiant / Chercheur';
+  form.project.name = 'Snake Eye RF';
+  form.project.code = 'IFT-2026-RF';
+  form.urgency = 'urgent';
+  form.justification = 'Acquisition de modules RF et antennes supplémentaires pour finaliser la cartographie électromagnétique du banc de test nomade de l’IFT avant la présentation de recherche.';
+  form.items = [
+    {
+      description: 'Microcontrôleur ESP32-S3-DevKitC-1 N16R8',
+      url: 'https://www.mouser.fr/ProductDetail/Espressif-Systems/ESP32-S3-DevKitC-1-N16R8',
+      supplier: 'Mouser',
+      reference: 'ESP32-S3-DKC-1',
+      quantity: 2,
+      unitPrice: 14.20
+    },
+    {
+      description: 'Antenne patch 2.4GHz / 5.8GHz bi-bande SMA',
+      url: 'https://fr.rs-online.com/web/p/antennes-rf/1874523',
+      supplier: 'RS Components',
+      reference: 'RS-187-4523',
+      quantity: 2,
+      unitPrice: 8.50
+    }
+  ];
+  errorMessage.value = '';
+};
+
 const totalEstimated = computed(() => {
   return form.items.reduce((sum, it) => {
     const q = Number(it.quantity) || 0;
@@ -208,6 +237,25 @@ const resetForm = () => {
 
 <template>
   <div class="max-w-4xl mx-auto">
+
+    <!-- Demo Quick-Fill Banner -->
+    <div class="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 bg-amber-50/70 border border-amber-200/80 rounded-xl text-xs text-amber-950">
+      <div class="flex items-start sm:items-center gap-2.5">
+        <Sparkles class="w-4 h-4 text-amber-600 shrink-0 mt-0.5 sm:mt-0" />
+        <div>
+          <span class="font-semibold text-amber-900">Session Démo active</span>
+          <span class="text-amber-800/90 ml-1 sm:inline block">Vous pouvez pré-remplir instantanément un panier type pour tester la soumission.</span>
+        </div>
+      </div>
+      <button
+        type="button"
+        @click="fillDemoExample"
+        class="shrink-0 inline-flex items-center justify-center gap-1.5 px-3 py-1.5 font-mono text-xs font-semibold bg-amber-600 hover:bg-amber-700 text-white rounded-md transition-colors shadow-2xs"
+      >
+        <Sparkles class="w-3.5 h-3.5" />
+        <span>Pré-remplir l'exemple</span>
+      </button>
+    </div>
 
     <!-- Error Alert if any -->
     <div

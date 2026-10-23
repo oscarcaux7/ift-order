@@ -41,6 +41,12 @@ const handleExport = () => {
   orderStore.exportOrdersCSV();
 };
 
+const handleResetDemo = () => {
+  if (confirm("Réinitialiser les commandes avec les données d'exemple du laboratoire IFT ?")) {
+    orderStore.resetDemoData();
+  }
+};
+
 const filterTabs = [
   { key: 'all', label: 'Toutes' },
   { key: 'pending', label: 'En attente' },
@@ -89,7 +95,17 @@ const filterTabs = [
             title="Exporter la sélection courante au format CSV (Excel/Sheets)"
           >
             <Download class="w-3.5 h-3.5 text-neutral-500" />
-            <span>Export CSV Achats</span>
+            <span>Export CSV</span>
+          </button>
+
+          <button
+            type="button"
+            @click="handleResetDemo"
+            class="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-mono font-medium text-neutral-600 bg-stone-50 hover:bg-stone-100 hover:text-black border border-neutral-200 rounded-md transition-colors"
+            title="Réinitialiser avec les 4 commandes types de l'IFT"
+          >
+            <RotateCw class="w-3.5 h-3.5 text-neutral-400" />
+            <span class="hidden sm:inline">Reset Démo</span>
           </button>
         </div>
       </div>

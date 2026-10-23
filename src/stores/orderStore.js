@@ -237,6 +237,11 @@ export const useOrderStore = defineStore('orders', () => {
     }
   };
 
+  const resetDemoData = () => {
+    orders.value = JSON.parse(JSON.stringify(INITIAL_DEMO_ORDERS));
+    localStorage.setItem('ift_local_orders', JSON.stringify(orders.value));
+  };
+
   const generateTrackingCode = () => {
     const year = new Date().getFullYear().toString().slice(-2);
     const chars = '23456789ABCDEFGHJKLMNPQRSTUVWXYZ';
@@ -490,6 +495,7 @@ export const useOrderStore = defineStore('orders', () => {
     createOrder,
     updateOrderStatus,
     deleteOrder,
-    exportOrdersCSV
+    exportOrdersCSV,
+    resetDemoData
   };
 });

@@ -137,6 +137,14 @@ export const useAuthStore = defineStore('auth', () => {
     localStorage.removeItem('ift_demo_user');
   };
 
+  const toggleDemoRole = () => {
+    if (isAdmin.value) {
+      logout();
+    } else {
+      loginDemoLabManager();
+    }
+  };
+
   return {
     user,
     loading,
@@ -146,6 +154,7 @@ export const useAuthStore = defineStore('auth', () => {
     loginWithGoogle,
     loginWithEmail,
     loginDemoLabManager,
+    toggleDemoRole,
     logout
   };
 });

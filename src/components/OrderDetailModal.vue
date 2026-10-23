@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useOrderStore, STATUS_MAP } from '@/stores/orderStore';
 import { useAuthStore } from '@/stores/authStore';
 import StatusBadge from '@/components/StatusBadge.vue';
@@ -34,7 +34,7 @@ const emit = defineEmits(['close']);
 const orderStore = useOrderStore();
 const authStore = useAuthStore();
 
-const editStatus = ref('');
+const editStatus = ref('pending');
 const editNotes = ref('');
 const editDeliveryDate = ref('');
 const isSaving = ref(false);
@@ -47,6 +47,18 @@ const initEditFields = () => {
     editDeliveryDate.value = props.order.estimatedDeliveryDate || '';
   }
 };
+
+watch(() => props.order, (newVal) => {
+  if (newVal) {
+    initEditFields();
+  }
+}, { immediate: true });
+
+watch(() => props.isOpen, (newVal) => {
+  if (newVal && props.order) {
+    initEditFields();
+  }
+});
 
 const formatDate = (isoString) => {
   if (!isoString) return '—';
@@ -90,6 +102,11 @@ const handleSaveStatus = async () => {
     editNotes.value, 
     editDeliveryDate.value
   );
+
+  props.order.status = editStatus.value;
+  props.order.statusNotes = editNotes.value;
+  props.order.estimatedDeliveryDate = editDeliveryDate.value;
+  props.order.updatedAt = new Date().toISOString();
 
   isSaving.value = false;
   saveSuccess.value = true;

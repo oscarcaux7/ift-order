@@ -1,10 +1,13 @@
 <script setup>
-import { onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import HeaderNav from '@/components/HeaderNav.vue';
 import { useOrderStore } from '@/stores/orderStore';
-import { ExternalLink, Terminal } from 'lucide-vue-next';
+import { useAuthStore } from '@/stores/authStore';
+import { ExternalLink, Sparkles, ShieldCheck, UserCheck, X } from 'lucide-vue-next';
 
 const orderStore = useOrderStore();
+const authStore = useAuthStore();
+const showDemoBanner = ref(true);
 
 onMounted(() => {
   orderStore.initStore();
@@ -13,6 +16,44 @@ onMounted(() => {
 
 <template>
   <div class="min-h-screen flex flex-col bg-[#FBFBFC] text-[#111111]">
+    
+    <!-- Top Interactive Demo Banner -->
+    <div 
+      v-if="showDemoBanner"
+      class="bg-neutral-900 text-white px-4 py-2 text-xs flex flex-wrap items-center justify-between gap-2 border-b border-neutral-800 transition-all"
+    >
+      <div class="flex items-center gap-2">
+        <Sparkles class="w-3.5 h-3.5 text-amber-400 shrink-0" />
+        <span class="font-mono text-[11px] text-neutral-300">
+          Session Démo — Rôle actif : 
+          <strong class="text-white">
+            {{ authStore.isAdmin ? 'Lab Manager (Validation & Droits Administrateur)' : 'Étudiant / Demandeur' }}
+          </strong>
+        </span>
+      </div>
+
+      <div class="flex items-center gap-2.5">
+        <button
+          type="button"
+          @click="authStore.toggleDemoRole()"
+          class="font-mono text-[11px] px-2.5 py-0.5 rounded bg-neutral-800 hover:bg-neutral-700 text-neutral-200 border border-neutral-700 transition-colors inline-flex items-center gap-1.5 cursor-pointer"
+        >
+          <ShieldCheck v-if="!authStore.isAdmin" class="w-3 h-3 text-amber-400" />
+          <UserCheck v-else class="w-3 h-3 text-emerald-400" />
+          <span>{{ authStore.isAdmin ? 'Passer en Demandeur' : 'Passer en Lab Manager' }}</span>
+        </button>
+
+        <button
+          type="button"
+          @click="showDemoBanner = false"
+          class="text-neutral-400 hover:text-white p-0.5 transition-colors"
+          title="Masquer le bandeau"
+        >
+          <X class="w-3.5 h-3.5" />
+        </button>
+      </div>
+    </div>
+
     <!-- Sticky Navigation Bar -->
     <HeaderNav />
 
@@ -54,7 +95,7 @@ onMounted(() => {
             <ExternalLink class="w-3 h-3" />
           </a>
           <span class="text-neutral-300">|</span>
-          <span class="text-neutral-400">Firebase Spark Tier</span>
+          <span class="text-neutral-400">Mode Démo Prêt à l'Emploi</span>
           <span class="text-neutral-300">|</span>
           <router-link to="/orders" class="hover:text-black transition-colors">
             Suivi des commandes
