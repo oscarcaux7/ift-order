@@ -193,7 +193,24 @@ export const useOrderStore = defineStore('orders', () => {
       loading.value = true;
       try {
         const ordersQuery = query(collection(db, 'orders'), orderBy('createdAt', 'desc'));
-        onSnapshot(ordersQuery, (snapshot) => {
+        onSnapshot(ordersQuery, async (snapshot) => {
+          if (snapshot.empty) {
+            console.info('[IFT Order] Firestore vide : injection des 4 commandes initiales de l’IFT...');
+            for (const item of INITIAL_DEMO_ORDERS) {
+              const { id, ...data } = item;
+              try {
+                await addDoc(collection(db, 'orders'), {
+                  ...data,
+                  createdAt: serverTimestamp(),
+                  updatedAt: serverTimestamp()
+                });
+              } catch (e) {
+                console.warn('[IFT Order] Échec injection Firestore :', e);
+              }
+            }
+            return;
+          }
+
           orders.value = snapshot.docs.map(doc => ({
             id: doc.id,
             ...doc.data(),
@@ -237,9 +254,34 @@ export const useOrderStore = defineStore('orders', () => {
     }
   };
 
-  const resetDemoData = () => {
-    orders.value = JSON.parse(JSON.stringify(INITIAL_DEMO_ORDERS));
-    localStorage.setItem('ift_local_orders', JSON.stringify(orders.value));
+  const resetDemoData = async () => {
+    if (isFirebaseConfigured && db) {
+      loading.value = true;
+      try {
+        for (const o of orders.value) {
+          try {
+            await deleteDoc(doc(db, 'orders', o.id));
+          } catch (e) {
+            console.warn('Suppression document error:', e);
+          }
+        }
+        for (const item of INITIAL_DEMO_ORDERS) {
+          const { id, ...data } = item;
+          await addDoc(collection(db, 'orders'), {
+            ...data,
+            createdAt: serverTimestamp(),
+            updatedAt: serverTimestamp()
+          });
+        }
+      } catch (err) {
+        console.error('Erreur réinitialisation Firestore:', err);
+      } finally {
+        loading.value = false;
+      }
+    } else {
+      orders.value = JSON.parse(JSON.stringify(INITIAL_DEMO_ORDERS));
+      localStorage.setItem('ift_local_orders', JSON.stringify(orders.value));
+    }
   };
 
   const generateTrackingCode = () => {
