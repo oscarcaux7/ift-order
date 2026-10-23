@@ -20,13 +20,13 @@ onMounted(() => {
     <!-- Top Interactive Demo Banner -->
     <div 
       v-if="showDemoBanner"
-      class="bg-neutral-900 text-white px-4 py-2 text-xs flex flex-wrap items-center justify-between gap-2 border-b border-neutral-800 transition-all"
+      class="bg-neutral-900 text-white px-4 sm:px-6 py-2.5 text-xs flex flex-wrap items-center justify-between gap-3 border-b border-neutral-800 transition-all"
     >
-      <div class="flex items-center gap-2">
-        <Sparkles class="w-3.5 h-3.5 text-amber-400 shrink-0" />
-        <span class="font-mono text-[11px] text-neutral-300">
+      <div class="flex items-center gap-2.5">
+        <Sparkles class="w-4 h-4 text-amber-400 shrink-0" />
+        <span class="font-mono text-xs text-neutral-300">
           Session Démo — Rôle actif : 
-          <strong class="text-white">
+          <strong class="text-white font-semibold">
             {{ authStore.isAdmin ? 'Lab Manager (Validation & Droits Administrateur)' : 'Étudiant / Demandeur' }}
           </strong>
         </span>
@@ -36,11 +36,11 @@ onMounted(() => {
         <button
           type="button"
           @click="authStore.toggleDemoRole()"
-          class="font-mono text-[11px] px-2.5 py-0.5 rounded bg-neutral-800 hover:bg-neutral-700 text-neutral-200 border border-neutral-700 transition-colors inline-flex items-center gap-1.5 cursor-pointer"
+          class="font-mono text-xs px-3 py-1 rounded bg-neutral-800 hover:bg-neutral-700 text-neutral-100 border border-neutral-700 transition-colors inline-flex items-center gap-1.5 cursor-pointer"
         >
-          <ShieldCheck v-if="!authStore.isAdmin" class="w-3 h-3 text-amber-400" />
-          <UserCheck v-else class="w-3 h-3 text-emerald-400" />
-          <span>{{ authStore.isAdmin ? 'Passer en Demandeur' : 'Passer en Lab Manager' }}</span>
+          <ShieldCheck v-if="!authStore.isAdmin" class="w-3.5 h-3.5 text-amber-400" />
+          <UserCheck v-else class="w-3.5 h-3.5 text-emerald-400" />
+          <span>{{ authStore.isAdmin ? 'Passer en vue Demandeur' : 'Passer en Lab Manager' }}</span>
         </button>
 
         <button
